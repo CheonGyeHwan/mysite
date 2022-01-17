@@ -77,7 +77,7 @@ public class UserDao {
 			conn = getConnection();
 			
 			// 3. SQL 준비
-			String sql = "SELECT no, name FROM user WHERE email = '?' AND password = '?'";
+			String sql = "SELECT no, name FROM user WHERE email = ? AND password = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			// 4. 바인딩(binding)
