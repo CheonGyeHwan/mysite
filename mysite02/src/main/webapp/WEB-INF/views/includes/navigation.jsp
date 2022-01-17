@@ -2,8 +2,8 @@
 
 <div id="navigation">
 	<ul>
-		<li><a href="<%= request.getContextPath() %>">천계환</a></li>
-		<li><a href="<%= request.getContextPath() %>/guestbook">방명록</a></li>
-		<li><a href="<%= request.getContextPath() %>/board">게시판</a></li>
+		<li><a href="${pageContext.request.contextPath }">천계환</a></li>
+		<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
+		<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
 	</ul>
 </div>
