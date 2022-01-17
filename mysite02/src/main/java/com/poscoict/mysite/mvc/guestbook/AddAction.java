@@ -16,7 +16,7 @@ public class AddAction implements Action {
 		request.setCharacterEncoding("UTF-8");
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
-		String message = request.getParameter("content");
+		String message = request.getParameter("message");
 		
 		GuestbookVo vo = new GuestbookVo();
 		vo.setName(name);
