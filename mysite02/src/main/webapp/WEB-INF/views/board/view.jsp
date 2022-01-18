@@ -39,6 +39,9 @@
 					<c:if test="${authUser.name == boardView.userName }">
 						<a href="${pageContext.request.contextPath }/board?a=modifyform&no=${boardView.no }">글수정</a>
 					</c:if>
+					<c:if test="${not empty authUser}">
+						<a href="${pageContext.request.contextPath }/board?a=writeform&no=${boardView.no }">답글작성</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

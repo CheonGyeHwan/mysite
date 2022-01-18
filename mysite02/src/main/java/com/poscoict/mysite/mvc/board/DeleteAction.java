@@ -28,7 +28,7 @@ public class DeleteAction implements Action {
 		BoardVo boardWriteUser = new BoardVo();
 		BoardDao dao = new BoardDao();
 		
-		boardWriteUser = dao.find("view", no, null).get(0);
+		boardWriteUser = dao.find("one", no, null).get(0);
 		
 		if (authUser.getNo() == boardWriteUser.getUserNo()) {
 			dao.delete(no);

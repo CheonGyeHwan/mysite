@@ -18,7 +18,7 @@ public class ViewAction implements Action {
 		BoardVo boardView = new BoardVo();
 		BoardDao dao = new BoardDao();
 		
-		boardView = dao.find("view", no, null).get(0);
+		boardView = dao.find("one", no, null).get(0);
 		request.setAttribute("boardView", boardView);
 		MvcUtil.forward("board/view", request, response);
 	}

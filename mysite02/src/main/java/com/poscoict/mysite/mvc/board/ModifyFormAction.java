@@ -20,7 +20,7 @@ public class ModifyFormAction implements Action {
 		BoardVo boardModify = new BoardVo();
 		BoardDao dao = new BoardDao();
 		
-		boardModify = dao.find("view", no, null).get(0);
+		boardModify = dao.find("one", no, null).get(0);
 		request.setAttribute("boardModify", boardModify);
 		MvcUtil.forward("board/modify", request, response);
 	}

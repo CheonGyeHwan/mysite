@@ -5,7 +5,8 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import com.poscoict.mysite.dao.BoardDao;
+import com.poscoict.mysite.vo.BoardVo;
 import com.poscoict.web.mvc.Action;
 import com.poscoict.web.util.MvcUtil;
 
@@ -13,6 +14,17 @@ public class WriteFormAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if (request.getParameter("no") != null) {
+			Long no = Long.parseLong(request.getParameter("no"));
+			
+			BoardVo vo = new BoardVo();
+			BoardDao dao = new BoardDao();
+			
+			vo = dao.find("one", no, null).get(0);
+			request.setAttribute("boardReply", vo);
+		} 
+		
 		MvcUtil.forward("board/write", request, response);
 	}
 

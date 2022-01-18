@@ -16,14 +16,26 @@ public class WriteAction implements Action {
 		String title = request.getParameter("title");
 		String contents = request.getParameter("contents");
 		Long userNo = Long.parseLong(request.getParameter("userNo"));
-		
+		BoardDao dao = new BoardDao();
 		BoardVo vo = new BoardVo();
+		
 		vo.setTitle(title);
 		vo.setContents(contents);
 		vo.setUserNo(userNo);
 		
-		BoardDao dao = new BoardDao();
-		dao.insert(vo);
+		if (request.getParameter("groupNo") == null) {
+			dao.insert("new", vo);
+		} else {
+			int groupNo = Integer.parseInt(request.getParameter("groupNo"));
+			int orderNo = Integer.parseInt(request.getParameter("orderNo"));
+			int depth = Integer.parseInt(request.getParameter("depth"));
+			
+			vo.setGroupNo(groupNo);
+			vo.setOrderNo(orderNo);
+			vo.setDepth(depth);
+			
+			dao.insert("reply", vo);
+		}
 		
 		MvcUtil.redirect(request.getContextPath() + "/board", request, response);
 	}

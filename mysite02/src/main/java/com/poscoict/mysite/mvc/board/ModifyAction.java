@@ -25,7 +25,7 @@ public class ModifyAction implements Action {
 		vo.setContents(contents);
 		
 		BoardDao dao = new BoardDao();
-		dao.update(vo);
+		dao.update("notReply", vo);
 		
 		MvcUtil.redirect(request.getContextPath() + "/board?a=view&no=" + no, request, response);
 	}

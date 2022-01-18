@@ -46,7 +46,7 @@ public class BoardDao {
 						+ "INNER JOIN user b "
 						+ "ON a.user_no = b.no "
 						+ "ORDER BY g_no DESC, o_no ASC";
-			} else if ("view".equals(method)) {
+			} else if ("one".equals(method)) {
 				sql = "SELECT a.no, a.title, a.contents, a.hit, a.g_no, a.o_no, a.depth, DATE_FORMAT(a.reg_date, '%Y/%m/%d %H:%i:%s') AS reg_date, a.user_no , b.name as user_name "
 						+ "FROM board a "
 						+ "INNER JOIN user b "
@@ -117,26 +117,38 @@ public class BoardDao {
 		return result;
 	}
 	
-	public boolean insert(BoardVo vo) {
+	public boolean insert(String method, BoardVo vo) {
 		boolean result = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
+			String sql = null;		
 			
-			// 3. SQL 준비
-			String sql = "INSERT INTO board VALUES (NULL, ?, ?, 0, IFNULL((SELECT MAX(sub.g_no) + 1 FROM board AS sub), 1), 1, 1, NOW(), ?)";
-			pstmt = conn.prepareStatement(sql);
+			if ("new".equals(method)) {
+				sql = "INSERT INTO board VALUES (NULL, ?, ?, 0, IFNULL((SELECT MAX(sub.g_no) + 1 FROM board AS sub), 1), 1, 1, NOW(), ?)";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getContents());
+				pstmt.setLong(3, vo.getUserNo());
+				
+			} else if ("reply".equals(method)) {
+				update("reply", vo);
+				
+				sql = "INSERT INTO board VALUES (NULL, ?, ?, 0, ?, ?, ?, NOW(), ?)";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getContents());
+				pstmt.setInt(3, vo.getGroupNo());
+				pstmt.setInt(4, vo.getOrderNo() + 1);
+				pstmt.setInt(5, vo.getDepth() + 1);
+				pstmt.setLong(6, vo.getUserNo());
+			}
 			
-			// 4. 바인딩(binding)
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setLong(3, vo.getUserNo());
-			
-			// 5. SQL 실행
 			result = (pstmt.executeUpdate() == 1);
-			
 		} catch (SQLException e) {
 			System.out.println("error : " + e);
 		} finally {
@@ -156,7 +168,7 @@ public class BoardDao {
 		return result;
 	}
 	
-	public boolean update(BoardVo vo) {
+	public boolean update(String method, BoardVo vo) {
 		boolean result = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -166,12 +178,21 @@ public class BoardDao {
 			String sql = null;
 			
 			// 3. SQL 준비
-			sql = "UPDATE board SET title = ?, contents = ?, reg_date = NOW() WHERE no = ?";
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, vo.getTitle());
-			pstmt.setString(2, vo.getContents());
-			pstmt.setLong(3, vo.getNo());
+			if ("notReply".equals(method)) {
+				sql = "UPDATE board SET title = ?, contents = ?, reg_date = NOW() WHERE no = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, vo.getTitle());
+				pstmt.setString(2, vo.getContents());
+				pstmt.setLong(3, vo.getNo());
+				
+			} else if ("reply".equals(method)) {
+				sql = "UPDATE board SET o_no = (o_no + 1) WHERE o_no > ? AND g_no = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, vo.getOrderNo());
+				pstmt.setInt(2, vo.getGroupNo());
+			}
 			
 			// 5. SQL 실행
 			result = (pstmt.executeUpdate() == 1);
