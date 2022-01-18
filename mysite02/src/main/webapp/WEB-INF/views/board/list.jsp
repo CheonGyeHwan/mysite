@@ -32,8 +32,8 @@
 					<c:forEach items='${list }' var='list' varStatus='status'>
 						<tr>
 							<td>${count - status.index }</td>
-							<td style="padding-left:${list.depth -1} * 20px">
-								<c:if test="${list.depth > 1 }">
+							<td style="text-align:left; padding-left:${(list.depth-1)*20 }px">
+								<c:if test="${list.orderNo > 1 }">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
 								</c:if>
 								<a href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a>
