@@ -13,7 +13,6 @@ public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		int no = Integer.parseInt(request.getParameter("no"));
 		String password = request.getParameter("password");
 		

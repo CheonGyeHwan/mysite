@@ -13,7 +13,6 @@ public class AddAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		String name = request.getParameter("name");
 		String password = request.getParameter("password");
 		String message = request.getParameter("message");
