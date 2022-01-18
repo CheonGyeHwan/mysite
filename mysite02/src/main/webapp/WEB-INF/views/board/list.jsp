@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -30,7 +33,7 @@
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-11 12:04:20</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="" class="del" style="background-image:url('/mysite02/assets/images/recycle.png')">삭제</a></td>
 					</tr>
 					<tr>
 						<td>2</td>
@@ -38,7 +41,7 @@
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-10-02 12:04:12</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="" class="del" style="background-image:url('/mysite02/assets/images/recycle.png')">삭제</a></td>
 					</tr>
 					<tr>
 						<td>1</td>
@@ -46,15 +49,32 @@
 						<td>안대혁</td>
 						<td>3</td>
 						<td>2015-09-25 07:24:32</td>
-						<td><a href="" class="del">삭제</a></td>
+						<td><a href="" class="del" style="background-image:url('${pageContext.request.contextPath }/assets/images/recycle.png')">삭제</a></td>
 					</tr>
 				</table>
+				
+				<!-- pager 추가 -->
+				<div class="pager">
+					<ul>
+						<li><a href="">◀</a></li>
+						<li><a href="">1</a></li>
+						<li class="selected">2</li>
+						<li><a href="">3</a></li>
+						<li>4</li>
+						<li>5</li>
+						<li><a href="">▶</a></li>
+					</ul>
+				</div>					
+				<!-- pager 추가 -->
+				
 				<div class="bottom">
 					<a href="" id="new-book">글쓰기</a>
 				</div>				
 			</div>
 		</div>
-		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>
+		<c:import url="/WEB-INF/views/includes/navigation.jsp">
+			<c:param name="menu" value="board"/>
+		</c:import>
 		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	</div>
 </body>
