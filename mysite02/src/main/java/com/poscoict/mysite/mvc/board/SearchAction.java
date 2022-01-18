@@ -11,14 +11,21 @@ import com.poscoict.mysite.vo.BoardVo;
 import com.poscoict.web.mvc.Action;
 import com.poscoict.web.util.MvcUtil;
 
-public class ListAction implements Action {
+public class SearchAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String kwd = request.getParameter("kwd");
+		
+		if (kwd == null || kwd.equals("")) {
+			MvcUtil.redirect(request.getContextPath() + "/board", request, response);
+			return ;
+		}
+		
 		List<BoardVo> list = new ArrayList<>();
 		BoardDao dao = new BoardDao();
 		
-		list = dao.find("all", null, null);
+		list = dao.find("search", null, kwd);
 		request.setAttribute("list", list);
 		MvcUtil.forward("board/list", request, response);
 	}

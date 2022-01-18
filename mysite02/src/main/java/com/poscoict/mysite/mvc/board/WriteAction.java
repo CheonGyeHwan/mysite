@@ -1,8 +1,6 @@
 package com.poscoict.mysite.mvc.board;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,16 +9,23 @@ import com.poscoict.mysite.vo.BoardVo;
 import com.poscoict.web.mvc.Action;
 import com.poscoict.web.util.MvcUtil;
 
-public class ListAction implements Action {
+public class WriteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<BoardVo> list = new ArrayList<>();
-		BoardDao dao = new BoardDao();
+		String title = request.getParameter("title");
+		String contents = request.getParameter("contents");
+		Long userNo = Long.parseLong(request.getParameter("userNo"));
 		
-		list = dao.find("all", null, null);
-		request.setAttribute("list", list);
-		MvcUtil.forward("board/list", request, response);
+		BoardVo vo = new BoardVo();
+		vo.setTitle(title);
+		vo.setContents(contents);
+		vo.setUserNo(userNo);
+		
+		BoardDao dao = new BoardDao();
+		dao.insert(vo);
+		
+		MvcUtil.redirect(request.getContextPath() + "/board", request, response);
 	}
 
 }
