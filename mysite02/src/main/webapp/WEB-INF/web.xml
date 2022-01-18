@@ -75,4 +75,14 @@
     <servlet-name>BoardController</servlet-name>
     <url-pattern>/board</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>BoardHitCookie</display-name>
+    <servlet-name>BoardHitCookie</servlet-name>
+    <servlet-class>com.poscoict.web.cookie.BoardHitCookie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>BoardHitCookie</servlet-name>
+    <url-pattern>/boardhitcookie</url-pattern>
+  </servlet-mapping>
 </web-app>

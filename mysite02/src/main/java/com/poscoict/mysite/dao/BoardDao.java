@@ -192,6 +192,12 @@ public class BoardDao {
 				
 				pstmt.setInt(1, vo.getOrderNo());
 				pstmt.setInt(2, vo.getGroupNo());
+				
+			} else if ("hit".equals(method)) {
+				sql = "UPDATE board SET hit = (hit + 1) WHERE no = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setLong(1, vo.getNo());
 			}
 			
 			// 5. SQL 실행

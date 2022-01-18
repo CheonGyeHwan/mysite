@@ -36,7 +36,7 @@
 								<c:if test="${list.orderNo > 1 }">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
 								</c:if>
-								<a href="${pageContext.request.contextPath }/board?a=view&no=${list.no}">${list.title }</a>
+								<a href="${pageContext.request.contextPath }/board?a=hit&no=${list.no}">${list.title }</a>
 							</td>
 							<td>${list.userName }</td>
 							<td>${list.hit }</td>
