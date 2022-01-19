@@ -31,7 +31,7 @@ public class HitAction implements Action {
 		if (cookies == null) {
 			Cookie cookie = new Cookie(boardNo, userNo);
 			cookie.setPath(request.getContextPath());
-			cookie.setMaxAge(2*60); // 1 day
+			cookie.setMaxAge(24*60*60);
 			response.addCookie(cookie);
 			
 			vo = new BoardVo();
