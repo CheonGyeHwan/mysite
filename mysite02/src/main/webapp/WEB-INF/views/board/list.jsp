@@ -61,7 +61,14 @@
 							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageMakerDto.startPage - 1 }">◀</a></li>
 						</c:if>
 						<c:forEach begin="${pageMakerDto.startPage }" end="${pageMakerDto.endPage }" step="1" var="pageNumber">
-							<li class="${pageMakerDto.cri.pageNum == pageNumber ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNumber }">${pageNumber }</a></li>
+							<c:choose>
+								<c:when test="${empty pageMakerDto.searchKeword}">
+									<li class="${pageMakerDto.cri.pageNum == pageNumber ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNumber }">${pageNumber }</a></li>
+								</c:when>
+								<c:otherwise>
+									<li class="${pageMakerDto.cri.pageNum == pageNumber ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNumber }&kwd=${pageMakerDto.searchKeword }">${pageNumber }</a></li>
+								</c:otherwise>
+							</c:choose>
 						</c:forEach>
 						<c:if test="${pageMakerDto.next }">
 							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageMakerDto.endPage + 1 }">▶</a></li>

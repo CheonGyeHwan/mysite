@@ -1,6 +1,7 @@
 package com.poscoict.web.paging;
 
 public class PageMakerDto {
+	private String searchKeword = null;
 	private int startPage;
 	private int endPage;
 	private boolean prev;
@@ -21,6 +22,14 @@ public class PageMakerDto {
 		
 		this.prev = startPage > 1;
 		this.next = endPage < realEnd;
+	}
+
+	public String getSearchKeword() {
+		return searchKeword;
+	}
+	
+	public void setSearchKeword(String searchKeword) {
+		this.searchKeword = searchKeword;
 	}
 
 	public int getStartPage() {
