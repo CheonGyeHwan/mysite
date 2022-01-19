@@ -18,9 +18,17 @@ public class ListAction implements Action {
 		List<BoardVo> list = new ArrayList<>();
 		BoardDao dao = new BoardDao();
 		
-		list = dao.find("all", null, null);
-		request.setAttribute("list", list);
-		MvcUtil.forward("board/list", request, response);
+		if (request.getParameter("kwd") == null || request.getParameter("kwd").equals("")) {
+			list = dao.find("all", null, null);
+			request.setAttribute("list", list);
+			
+		} else {	
+			String kwd = request.getParameter("kwd");
+			list = dao.find("search", null, kwd);
+			request.setAttribute("list", list);
+		}
+		
+		MvcUtil.forward("board/list", request, response);	
 	}
 
 }
