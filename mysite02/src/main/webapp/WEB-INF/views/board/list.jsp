@@ -48,20 +48,20 @@
 					</c:forEach>
 				</table>			
 				
-				<!-- pager 추가 -->
 				<div class="pager">
 					<ul>
-						<li><a href="">◀</a></li>
-						<li><a href="">1</a></li>
-						<li class="selected">2</li>
-						<li><a href="">3</a></li>
-						<li>4</li>
-						<li>5</li>
-						<li><a href="">▶</a></li>
+						<c:if test="${pageMakerDto.prev }">
+							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageMakerDto.startPage - 1 }">◀</a></li>
+						</c:if>
+						<c:forEach begin="${pageMakerDto.startPage }" end="${pageMakerDto.endPage }" step="1" var="pageNumber">
+							<li class="${pageMakerDto.cri.pageNum == pageNumber ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNumber }">${pageNumber }</a></li>
+						</c:forEach>
+						<c:if test="${pageMakerDto.next }">
+							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageMakerDto.endPage + 1 }">▶</a></li>
+						</c:if>
 					</ul>
-				</div>					
-				<!-- pager 추가 -->
-				
+				</div>	
+			
 				<c:if test="${not empty authUser }">
 					<div class="bottom">
 						<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>

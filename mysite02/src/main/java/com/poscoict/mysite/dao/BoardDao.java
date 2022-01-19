@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.poscoict.mysite.vo.BoardVo;
+import com.poscoict.web.paging.Criteria;
 
 public class BoardDao {
 	
@@ -29,7 +30,7 @@ public class BoardDao {
 		return conn;
 	}
 	
-	public List<BoardVo> find(String method, Long boardNo, String kwd) {
+	public List<BoardVo> find(String method, Long boardNo, String kwd, Criteria cri) {
 		List<BoardVo> result = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -45,7 +46,12 @@ public class BoardDao {
 						+ "FROM board a "
 						+ "INNER JOIN user b "
 						+ "ON a.user_no = b.no "
-						+ "ORDER BY g_no DESC, o_no ASC";
+						+ "ORDER BY g_no DESC, o_no ASC ";
+				
+				if (cri != null) {
+					sql += "LIMIT " + cri.getSkip() + ", " + cri.getAmount();
+				}
+				
 			} else if ("one".equals(method)) {
 				sql = "SELECT a.no, a.title, a.contents, a.hit, a.g_no, a.o_no, a.depth, DATE_FORMAT(a.reg_date, '%Y/%m/%d %H:%i:%s') AS reg_date, a.user_no , b.name as user_name "
 						+ "FROM board a "
@@ -57,10 +63,14 @@ public class BoardDao {
 						+ "FROM board a "
 						+ "INNER JOIN user b "
 						+ "ON a.user_no = b.no "
-						+ "WHERE a.title LIKE '%" + kwd + "%'"
-						+ "OR a.contents LIKE '%" + kwd + "%'"
-						+ "OR b.name LIKE '%" + kwd + "%'"				
-						+ "ORDER BY g_no DESC, o_no ASC";
+						+ "WHERE a.title LIKE '%" + kwd + "%' "
+						+ "OR a.contents LIKE '%" + kwd + "%' "
+						+ "OR b.name LIKE '%" + kwd + "%' "				
+						+ "ORDER BY g_no DESC, o_no ASC ";
+				
+				if (cri != null) {
+					sql += "LIMIT " + cri.getSkip() + ", " + cri.getAmount();
+				}
 			} 
 			
 			pstmt = conn.prepareStatement(sql);

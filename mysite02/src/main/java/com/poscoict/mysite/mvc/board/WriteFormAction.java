@@ -21,7 +21,7 @@ public class WriteFormAction implements Action {
 			BoardVo vo = new BoardVo();
 			BoardDao dao = new BoardDao();
 			
-			vo = dao.find("one", no, null).get(0);
+			vo = dao.find("one", no, null, null).get(0);
 			request.setAttribute("boardReply", vo);
 		} 
 		
