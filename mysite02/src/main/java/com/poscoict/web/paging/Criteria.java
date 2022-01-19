@@ -7,13 +7,13 @@ public class Criteria {
 	
 	public Criteria() {
 		this.pageNum = 1;
-		this.amount = 5;
+		this.amount = 10;
 		this.skip = 0;
 	}
 	
 	public Criteria(int pageNum) {
 		this.pageNum = pageNum;
-		this.amount = 5;
+		this.amount = 10;
 		this.skip = (pageNum - 1) * amount;
 	}
 
