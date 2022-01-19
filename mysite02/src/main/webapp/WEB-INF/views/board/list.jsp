@@ -40,10 +40,17 @@
 							<td>${list.userName }</td>
 							<td>${list.hit }</td>
 							<td>${list.regDate }</td>
-							<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no}" 
-								   class="del" 
-							       style="background-image:url('${pageContext.request.contextPath }/assets/images/recycle.png')">삭제</a>
-							</td>
+							<c:choose>
+								<c:when test="${authUser.no == list.userNo }">
+									<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no}" 
+								  	   class="del" 
+							       	   style="background-image:url('${pageContext.request.contextPath }/assets/images/recycle.png')">삭제</a>
+									</td>
+								</c:when>
+								<c:otherwise>
+									<td></td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 					</c:forEach>
 				</table>			
