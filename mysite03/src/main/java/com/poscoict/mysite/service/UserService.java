@@ -22,8 +22,8 @@ public class UserService {
 		return userRepository.findByNo(userNo);
 	}
 
-	public void updateUser(UserVo userVo, boolean passwordIsNull) {
-		userRepository.update(userVo, passwordIsNull);
+	public void updateUser(UserVo userVo) {
+		userRepository.update(userVo);
 	}
 	
 }

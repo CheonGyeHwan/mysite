@@ -87,11 +87,7 @@ public class UserController {
 		}
 		
 		userVo.setNo(authUser.getNo());
-		boolean passwordIsNull = false;
-		if (userVo.getPassword() == null || userVo.getPassword().equals("")) {
-			passwordIsNull = true;
-		}
-		userService.updateUser(userVo, passwordIsNull);
+		userService.updateUser(userVo);
 		
 		return "redirect:/user/update";
 	}

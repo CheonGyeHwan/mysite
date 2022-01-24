@@ -173,7 +173,7 @@ public class UserRepository {
 		return result;
 	}
 
-	public boolean update(UserVo userVo, boolean passwordIsNull) {
+	public boolean update(UserVo userVo) {
 		boolean result = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -183,7 +183,7 @@ public class UserRepository {
 			String sql = null;
 			
 			// 3. SQL 준비
-			if (passwordIsNull) {
+			if (userVo.getPassword() == null || userVo.getPassword().equals("")) {
 				sql = "UPDATE user SET name = ?, gender = ? WHERE no = ?";
 				pstmt = conn.prepareStatement(sql);
 				
