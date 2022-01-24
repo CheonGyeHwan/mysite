@@ -15,7 +15,7 @@
 		<div id="content">
 			<div id="board">
 				<form id="search_form" action="${pageContext.request.contextPath }/board" method="post">
-					<input type="text" id="kwd" name="kwd" value="">
+					<input type="text" id="kwd" name="keyword" value="">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -27,21 +27,21 @@
 						<th>작성일</th>
 						<th>&nbsp;</th>
 					</tr>
-					<c:forEach items='${list }' var='list' varStatus='status'>
+					<c:forEach items='${map.list }' var='list' varStatus='status'>
 						<tr>
-							<td>${pageMakerDto.total - (pageMakerDto.cri.pageNum - 1) * pageMakerDto.cri.amount - status.index }</td>
+							<td>${map.pagingVo.total - (map.pagingVo.currentPage - 1) * map.pagingVo.boardAmount - status.index }</td>
 							<td style="text-align:left; padding-left:${(list.depth-1)*20 }px">
 								<c:if test="${list.orderNo > 1 }">
 									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
 								</c:if>
-								<a href="${pageContext.request.contextPath }/board?a=hit&no=${list.no}">${list.title }</a>
+								<a href="${pageContext.request.contextPath }/board/view/${list.no}">${list.title }</a>
 							</td>
 							<td>${list.userName }</td>
 							<td>${list.hit }</td>
 							<td>${list.regDate }</td>
 							<c:choose>
 								<c:when test="${authUser.no == list.userNo }">
-									<td><a href="${pageContext.request.contextPath }/board?a=delete&no=${list.no}" 
+									<td><a href="${pageContext.request.contextPath }/board/delete/${list.no}" 
 								  	   class="del" 
 							       	   style="background-image:url('${pageContext.request.contextPath }/assets/images/recycle.png')">삭제</a>
 									</td>
@@ -56,28 +56,28 @@
 				
 				<div class="pager">
 					<ul>
-						<c:if test="${pageMakerDto.prev }">
-							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageMakerDto.startPage - 1 }">◀</a></li>
+						<c:if test="${map.pagingVo.prev }">
+							<li><a href="${pageContext.request.contextPath }/board/${map.pagingVo.startPage - 1 }">◀</a></li>
 						</c:if>
-						<c:forEach begin="${pageMakerDto.startPage }" end="${pageMakerDto.endPage }" step="1" var="pageNumber">
+						<c:forEach begin="${map.pagingVo.startPage }" end="${map.pagingVo.endPage }" step="1" var="currentPage">
 							<c:choose>
-								<c:when test="${empty pageMakerDto.searchKeword}">
-									<li class="${pageMakerDto.cri.pageNum == pageNumber ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNumber }">${pageNumber }</a></li>
+								<c:when test="${empty map.pagingVo.keyword }">
+									<li class="${map.pagingVo.currentPage == currentPage ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board/${currentPage }">${currentPage }</a></li>
 								</c:when>
 								<c:otherwise>
-									<li class="${pageMakerDto.cri.pageNum == pageNumber ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board?pageNum=${pageNumber }&kwd=${pageMakerDto.searchKeword }">${pageNumber }</a></li>
+									<li class="${map.pagingVo.currentPage == currentPage ? 'selected' : ''}"><a href="${pageContext.request.contextPath }/board/${map.pagingVo.keyword }/${currentPage }">${currentPage }</a></li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-						<c:if test="${pageMakerDto.next }">
-							<li><a href="${pageContext.request.contextPath }/board?pageNum=${pageMakerDto.endPage + 1 }">▶</a></li>
+						<c:if test="${map.pagingVo.next }">
+							<li><a href="${pageContext.request.contextPath }/board/${map.pagingVo.endPage + 1 }">▶</a></li>
 						</c:if>
 					</ul>
-				</div>	
+				</div>
 			
 				<c:if test="${not empty authUser }">
 					<div class="bottom">
-						<a href="${pageContext.request.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+						<a href="${pageContext.request.contextPath }/board/write" id="new-book">글쓰기</a>
 					</div>
 				</c:if>
 			</div>
