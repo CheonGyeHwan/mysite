@@ -11,6 +11,7 @@
   com.poscoict.mysite.service
   com.poscoict.mysite.repository
   com.poscoict.mysite.vo
-  
-7. /WEB-INF/views/*/*.jsp 정리
+    
+7. /webapp/assets/* 정리 
+   /webapp/WEB-INF/views/*/*.jsp 정리
 8. controller, service, repository 구현 작업
