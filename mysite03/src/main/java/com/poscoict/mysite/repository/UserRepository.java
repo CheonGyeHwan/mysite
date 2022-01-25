@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.stereotype.Repository;
+import com.poscoict.mysite.exception.UserRepositoryException;
 import com.poscoict.mysite.vo.UserVo;
 
 @Repository
@@ -69,7 +70,7 @@ public class UserRepository {
 		return result;
 	}
 
-	public UserVo findByEmailAndPassword(String email, String password) {
+	public UserVo findByEmailAndPassword(String email, String password) throws UserRepositoryException {
 		UserVo result = null;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -79,7 +80,7 @@ public class UserRepository {
 			conn = getConnection();
 			
 			// 3. SQL 준비
-			String sql = "SELECT no, name FROM user WHERE email = ? AND password = ?";
+			String sql = "ELECT no, name FROM user WHERE email = ? AND password = ?";
 			pstmt = conn.prepareStatement(sql);
 			
 			// 4. 바인딩(binding)
@@ -99,7 +100,7 @@ public class UserRepository {
 			}
 			
 		} catch (SQLException e) {
-			System.out.println("error : " + e);
+			throw new UserRepositoryException(e.toString());
 		} finally {
 			// 자원 정리
 			try {
