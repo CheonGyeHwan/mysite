@@ -7,12 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.poscoict.mysite.vo.BoardVo;
 import com.poscoict.mysite.vo.PagingVo;
 
 @Repository
 public class BoardRepository {
+	@Autowired
+	private SqlSession sqlSession;
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;
@@ -98,53 +102,7 @@ public class BoardRepository {
 	}
 	
 	private int boardTotalCount(String keyword) {
-		int result = 0;
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = getConnection();
-			String sql = null;
-			
-			if (keyword == null || keyword.equals("")) {
-				sql = "SELECT COUNT(*) "
-						+ "FROM board a "
-						+ "INNER JOIN user b "
-						+ "ON a.user_no = b.no ";
-				
-			} else {
-				sql = "SELECT COUNT(*) "
-						+ "FROM board a "
-						+ "INNER JOIN user b "
-						+ "ON a.user_no = b.no "
-						+ "WHERE a.title LIKE '%" + keyword + "%' "
-						+ "OR a.contents LIKE '%" + keyword + "%' "
-						+ "OR b.name LIKE '%" + keyword + "%' ";
-			} 
-			pstmt = conn.prepareStatement(sql);
-			rs = pstmt.executeQuery();
-			rs.next();
-			
-			result = rs.getInt(1);
-			
-		} catch (SQLException e) {
-			System.out.println("error : " + e);
-		} finally {
-			// 자원 정리
-			try {
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				System.out.println("error : " + e);
-			}
-		}
-		
-		return result;
+		return sqlSession.selectOne("board.boardTotalCount", keyword);
 	}
 	
 	public PagingVo Pagination(int currentPage, String keyword) {
