@@ -3,7 +3,9 @@
 
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.poscoict.mysite.vo.UserVo" alias="uservo"/>
 	</typeAliases>
 	<mappers>
+		<mapper resource="mybatis/mappers/user.xml"/>
 	</mappers>
 </configuration>
