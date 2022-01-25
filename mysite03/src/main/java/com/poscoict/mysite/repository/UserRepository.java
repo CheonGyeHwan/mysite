@@ -1,34 +1,23 @@
 package com.poscoict.mysite.repository;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.sql.DataSource;
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.poscoict.mysite.exception.UserRepositoryException;
 import com.poscoict.mysite.vo.UserVo;
 
 @Repository
 public class UserRepository {
+	@Autowired
+	private DataSource dataSource;
 	
-	private Connection getConnection() throws SQLException {
-		Connection conn = null;
-		
-		try {
-			// 1. JDBC Driver 로딩
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			// 2. Connect DB
-			String url = "jdbc:mysql://localhost:3306/webdb?characterEncoding=UTF-8&serverTimezone=UTC";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");
-			
-		} catch (ClassNotFoundException e) {
-			System.out.print("드라이버 로딩 실패 : " + e);
-		}
-		
-		return conn;
-	}
+	@Autowired
+	private SqlSession sqlSession;
 	
 	public boolean insert(UserVo vo) {
 		boolean result = false;
@@ -36,7 +25,7 @@ public class UserRepository {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			// 3. SQL 준비
 			String sql = "INSERT INTO user VALUES (NULL, ?, ?, ?, ?, NOW())";
@@ -77,7 +66,7 @@ public class UserRepository {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			// 3. SQL 준비
 			String sql = "SELECT no, name FROM user WHERE email = ? AND password = ?";
@@ -128,7 +117,7 @@ public class UserRepository {
 		ResultSet rs = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			
 			// 3. SQL 준비
 			String sql = "SELECT name, email, gender FROM user WHERE no = ?";
@@ -180,7 +169,7 @@ public class UserRepository {
 		PreparedStatement pstmt = null;
 		
 		try {
-			conn = getConnection();
+			conn = dataSource.getConnection();
 			String sql = null;
 			
 			// 3. SQL 준비
