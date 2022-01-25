@@ -23,7 +23,7 @@
 			      ,name
 			      ,password
 			      ,message
-			      ,DATE_FORMAT(reg_date, '%Y/%m/%d %H:%i:%s') AS reg_date 
+			      ,DATE_FORMAT(reg_date, '%Y/%m/%d %H:%i:%s') AS regDate 
 			  FROM guestbook 
 	      ORDER BY reg_date DESC
 		]]>
