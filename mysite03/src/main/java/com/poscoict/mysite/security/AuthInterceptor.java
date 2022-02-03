@@ -47,6 +47,16 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 			return false;
 		}
 		
+		String role = auth.role();
+		
+		if (role.equals("ADMIN")) {
+			if (authUser.getRole().equals("ADMIN")) {
+				return true;
+			}
+			response.sendRedirect(request.getContextPath());
+			return false;
+		}
+		
 		//6. 인증 확인!!! -> controller의 hanlder(method) 실행
 		return true;
 	}
