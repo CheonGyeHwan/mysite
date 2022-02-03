@@ -34,7 +34,7 @@
 						</spring:hasBindErrors>
 					</p>
 					
-					<label class="block-label" for="email"><spring:message code="user.join.label.password"/></label>
+					<label class="block-label" for="email"><spring:message code="user.join.label.email"/></label>
 					<form:input path="email"/>
 					<input type="button" value="id 중복체크">
 					<p style="text-align:left; padding-left:0; color:red">

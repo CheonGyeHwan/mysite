@@ -48,6 +48,8 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
+	<!-- mvc url-resource mapping -->
+	<mvc:resources mapping="/images/**" location="file:/upload-images/"/>
 	
 	<!-- ViewResolver -->
 	<bean id="ViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
