@@ -7,6 +7,7 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import com.poscoict.mysite.exception.FileUploadException;
 import com.poscoict.mysite.repository.SiteRepository;
 
 @Service
@@ -22,7 +23,7 @@ public class FileUploadService {
 		
 		try {
 			if (multipartFile.isEmpty()) {
-				url = siteRepository.select().getProfile();
+				url = siteRepository.find().getProfile();
 				return url;
 			}
 			
@@ -37,7 +38,7 @@ public class FileUploadService {
 			
 			url = URL_BASE + "/" + saveFileName;
 		} catch (IOException ex ) {
-			throw new RuntimeException("file upload error : " + ex);
+			throw new FileUploadException("file upload error : " + ex);
 		}
 		return url;
 	}

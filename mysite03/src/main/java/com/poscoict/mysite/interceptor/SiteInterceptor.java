@@ -17,7 +17,7 @@ public class SiteInterceptor extends HandlerInterceptorAdapter {
 		ServletContext context = request.getServletContext();
 		
 		if (context.getAttribute("site") == null ) {
-			context.setAttribute("site", siteRepository.select());
+			context.setAttribute("site", siteRepository.find());
 			return true;
 		}
 		

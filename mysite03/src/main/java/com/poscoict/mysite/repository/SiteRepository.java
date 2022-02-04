@@ -10,14 +10,12 @@ public class SiteRepository {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public SiteVo select() {
-		SiteVo result = sqlSession.selectOne("admin.select");
-		return result;
+	public SiteVo find() {
+		return sqlSession.selectOne("site.find");
 	}
 	
 	public boolean update(SiteVo siteVo) {
-		int count = sqlSession.update("admin.update", siteVo);
-		return count == 1;
+		return sqlSession.update("site.update", siteVo) == 1;
 	}
 
 }

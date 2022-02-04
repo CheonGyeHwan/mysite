@@ -22,24 +22,23 @@ public class AdminController {
 	@Autowired
 	private FileUploadService fileUploadService;
 	@Autowired
-	private ServletContext context;
+	private ServletContext servletContext;
 
 	@RequestMapping("")
 	public String main(Model model) {
 		SiteVo siteVo = siteService.getSite();
+		
 		model.addAttribute("siteVo", siteVo);
 		return "admin/main";
 	}
 	
-	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(SiteVo siteVo,
-			@RequestParam(value="newProfile") MultipartFile multipartFile) {
-		
-		String profile = fileUploadService.restore(multipartFile);
+	@RequestMapping(value="/main/update", method=RequestMethod.POST)
+	public String main(SiteVo siteVo, @RequestParam(value="newProfile") MultipartFile newProfile) {
+		String profile = fileUploadService.restore(newProfile);
 		siteVo.setProfile(profile);
 		
-		siteService.updateSite(siteVo);
-		context.setAttribute("site", siteService.getSite());
+		siteService.update(siteVo);
+		servletContext.setAttribute("site", siteVo);
 		
 		return "redirect:/admin";
 	}

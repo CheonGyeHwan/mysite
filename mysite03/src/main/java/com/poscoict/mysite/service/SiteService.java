@@ -11,10 +11,10 @@ public class SiteService {
 	private SiteRepository siteRepository;
 	
 	public SiteVo getSite() {
-		return siteRepository.select();
+		return siteRepository.find();
 	}
 	
-	public void updateSite(SiteVo siteVo) {
+	public void update(SiteVo siteVo) {
 		siteRepository.update(siteVo);
 	}
 	
