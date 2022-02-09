@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<select id="boardTotalCount" parameterType="String" resultType="Integer">
+		<choose>
+			<when test="_parameter == null || _parameter == ''">
+				<![CDATA[
+					SELECT COUNT(*)
+					  FROM board a
+				INNER JOIN user b
+						ON a.user_no = b.no
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					SELECT COUNT(*)
+					  FROM board a
+				INNER JOIN user b
+						ON a.user_no = b.no
+					 WHERE a.title LIKE "%${_parameter }%"
+						OR a.contents LIKE "%${_parameter }%"
+						OR b.name LIKE "%${_parameter }%"
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="find" parameterType="map" resultType="boardvo">
+		<choose>
+			<when test="keyword == null || keyword == ''"> 
+				<![CDATA[
+					SELECT a.no AS no
+				    	  ,a.title AS title
+					      ,a.contents AS contents
+					      ,a.hit AS hit
+					      ,a.g_no AS groupNo
+					      ,a.o_no AS orderNo
+					      ,a.depth AS depth
+					      ,DATE_FORMAT(a.reg_date, '%Y-%m-%d %H:%i:%s') AS regDate
+					      ,a.user_no AS userNo
+					      ,b.name AS userName
+					  FROM board a
+				INNER JOIN user b
+						ON a.user_no = b.no
+				  ORDER BY g_no DESC, o_no ASC
+					 LIMIT ${boardAmount }
+					OFFSET ${skip }
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					SELECT a.no AS no
+					      ,a.title AS title
+					      ,a.contents AS contents
+					      ,a.hit AS hit
+					      ,a.g_no AS groupNo
+					      ,a.o_no AS orderNo
+					      ,a.depth AS depth
+					      ,DATE_FORMAT(a.reg_date, '%Y-%m-%d %H:%i:%s') AS regDate
+					      ,a.user_no AS userNo
+					      ,b.name AS userName
+					  FROM board a
+				INNER JOIN user b
+					    ON a.user_no = b.no
+					 WHERE a.title LIKE "%${keyword }%"
+				        OR a.contents LIKE "%${keyword }%"
+					    OR b.name LIKE "%${keyword }%"
+				  ORDER BY g_no DESC, o_no ASC
+					 LIMIT ${boardAmount }
+					OFFSET ${skip }
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findByNo" parameterType="long" resultType="boardvo">
+		<![CDATA[
+			SELECT a.no AS no
+			      ,a.title AS title
+			      ,a.contents AS contents
+			      ,a.hit AS hit
+			      ,a.g_no AS groupNo
+			      ,a.o_no AS orderNo
+			      ,a.depth AS depth
+			      ,DATE_FORMAT(a.reg_date, '%Y/%m/%d %H:%i:%s') AS regDate
+			      ,a.user_no AS userNo
+			      ,b.name AS userName
+			  FROM board a
+		INNER JOIN user b
+				ON a.user_no = b.no
+			 WHERE a.no = #{_parameter }
+		]]>
+	</select>
+	
+	<insert id="insert" parameterType="boardvo">
+		<choose>
+			<when test="groupNo == null">
+				<![CDATA[
+					INSERT 
+					  INTO board 
+					VALUES (NULL, #{title }, #{contents }, 0, IFNULL((SELECT MAX(sub.g_no) + 1 FROM board AS sub), 1), 1, 1, NOW(), ${userNo })
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					INSERT 
+					  INTO board 
+					VALUES (NULL, #{title }, #{contents }, 0, ${groupNo }, ${orderNo } + 1, ${depth } + 1, NOW(), ${userNo })
+				]]>
+			</otherwise>
+		</choose>
+	</insert>
+	
+	<update id="update" parameterType="map">
+		<choose>
+			<when test="method == 'notReply'">
+				<![CDATA[
+					UPDATE board SET title = #{vo.title }, contents = #{vo.contents }, reg_date = NOW() WHERE no = #{vo.no }
+				]]>
+			</when>
+			<when test="method == 'reply'">
+				<![CDATA[
+					UPDATE board SET o_no = (o_no + 1) WHERE o_no > ${vo.orderNo } AND g_no = #{vo.groupNo }
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					UPDATE board SET hit = (hit + 1) WHERE no = #{vo.no }
+				]]>
+			</otherwise>
+		</choose>
+	</update>
+	
+	<delete id="delete" parameterType="boardvo">
+		<![CDATA[
+			DELETE FROM board WHERE no = #{no } AND user_no = #{userNo }
+		]]>
+	</delete>
+
+</mapper>
