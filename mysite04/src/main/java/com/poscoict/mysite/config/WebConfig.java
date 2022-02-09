@@ -8,13 +8,16 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import com.poscoict.config.web.FileuploadConfig;
+import com.poscoict.config.web.MessageConfig;
 import com.poscoict.config.web.MvcConfig;
+import com.poscoict.config.web.SecurityConfig;
 import com.poscoict.mysite.interceptor.SiteInterceptor;
 
 @Configuration
 @EnableAspectJAutoProxy
 @ComponentScan({"com.poscoict.mysite.controller", "com.poscoict.mysite.exception"})
-@Import({MvcConfig.class})
+@Import({MvcConfig.class, SecurityConfig.class, MessageConfig.class, FileuploadConfig.class})
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	// SiteInterceptor 등록
@@ -27,7 +30,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(siteInterceptor()).addPathPatterns("/**");
 	}
-	
-	
 	
 }
