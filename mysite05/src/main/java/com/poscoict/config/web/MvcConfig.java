@@ -27,9 +27,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 	// Message Converter
 	
 	// DefaultServlet Handler
-	@Override
-	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-		configurer.enable();
-	}
+//	@Override
+//	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+//		configurer.enable();
+//	}
 	
 }

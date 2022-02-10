@@ -19,6 +19,10 @@ public class GlobalExceptionHandler {
 		e.printStackTrace(new PrintWriter(errors));
 		LOGGER.error(errors.toString());
 		
+		if (e.toString().contains("NoHandlerFoundException")) {
+			return "error/404";
+		}
+		
 		// 2. 사과페이지 (HTML 응답, 정상 종료)
 		model.addAttribute("exception", errors.toString());
 		return "error/exception";
