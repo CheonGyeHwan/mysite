@@ -3,7 +3,7 @@
 
 #gallery			   { margin:20px auto; width:540px; }
 #gallery h1            { float: left; background: #fff url("/mysite03/assets/images/gallery.png") no-repeat left 0% top 50%; background-size: 25%; padding-left: 30px; }
-#gallery #upload-image { float: right; text-decoration:none; display:block; padding:10px 20px 10px 20px; border:1px solid #555; font-weight:bold; background-color:#E8ECF6; color:#111 }
+#gallery #upload-image { float: right; text-decoration:none; display:block; padding:10px 20px 10px 20px; border:1px solid #555; font-weight:bold; background-color:#E8ECF6; color:#111; }
 #gallery ul			   { width: 100%; clear: both; }
 #gallery ul li         { position: relative; float: left; width: 114px; height: 114px; border: 1px solid #ccc; margin: 8px 8px;}
 #gallery ul li a.image { position: absolute; width: 114px; height: 114px; background-size: 114px; background-repeat: no-repeat; background-position: center; z-index: 10;}
