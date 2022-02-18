@@ -35,7 +35,10 @@ public class AdminController {
 	@RequestMapping(value="/main/update", method=RequestMethod.POST)
 	public String main(SiteVo siteVo, @RequestParam(value="newProfile") MultipartFile newProfile) {
 		String profile = fileUploadService.restore(newProfile);
-		siteVo.setProfile(profile);
+		
+		if (profile != null) {
+			siteVo.setProfile(profile);
+		}
 		
 		siteService.update(siteVo);
 		servletContext.setAttribute("site", siteVo);

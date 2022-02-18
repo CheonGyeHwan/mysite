@@ -5,8 +5,19 @@
 
 <div id="navigation">
 	<ul>
-		<li><a href="${pageContext.request.contextPath }">천계환</a></li>
-		<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
-		<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
+		<c:choose>
+			<c:when test="${param.menu == 'gallery' }">
+				<li><a href="${pageContext.request.contextPath }">천계환</a></li>
+				<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
+				<li><a class="selected" href="${pageContext.request.contextPath }/gallery">갤러리</a></li>
+			</c:when>
+			<c:otherwise>
+				<li><a href="${pageContext.request.contextPath }">천계환</a></li>
+				<li><a href="${pageContext.request.contextPath }/guestbook">방명록</a></li>
+				<li><a href="${pageContext.request.contextPath }/board">게시판</a></li>
+				<li><a href="${pageContext.request.contextPath }/gallery">갤러리</a></li>
+			</c:otherwise>
+		</c:choose>
 	</ul>
 </div>

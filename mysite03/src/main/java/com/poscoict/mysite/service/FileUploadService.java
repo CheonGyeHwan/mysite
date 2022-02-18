@@ -23,7 +23,6 @@ public class FileUploadService {
 		
 		try {
 			if (multipartFile.isEmpty()) {
-				url = siteRepository.find().getProfile();
 				return url;
 			}
 			

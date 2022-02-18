@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="gallery">
+	
+	<select id="getImages" resultType="galleryvo">
+		<![CDATA[
+			SELECT no
+			      ,url
+			      ,comments
+			  FROM gallery
+		]]>
+	</select>
+	
+	<delete id="removeImage" parameterType="Long">
+		<![CDATA[
+			DELETE FROM gallery WHERE no = #{_parameter }
+		]]>
+	</delete>
+	
+	<insert id="saveImage" parameterType="galleryvo">
+		<![CDATA[
+			INSERT INTO gallery VALUES (NULL, #{url }, #{comments })
+		]]>
+	</insert>
+	
+</mapper>
