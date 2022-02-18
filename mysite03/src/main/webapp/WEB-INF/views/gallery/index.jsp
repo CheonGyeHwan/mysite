@@ -50,18 +50,20 @@ $(function(){
 			<div id="gallery">
 				<div>
 					<h1>갤러리</h1>
-					<a href="" id="upload-image">이미지 올리기</a>
+					<c:if test="${not empty authUser && authUser.role == 'ADMIN'}">
+						<a href="" id="upload-image">이미지 올리기</a>
+					</c:if>
 				</div>
 				<ul>
 					<c:forEach items="${list }" var="list">
 						<li>
-							<a	href="${list.url }"
+							<a	href="${pageContext.request.contextPath }${list.url }"
 								data-lightbox="gallery"
 								data-title="${list.comments }"
 								class="image"
-								style="background-image:url('${list.url }">&nbsp;</a>
+								style="background-image:url('${pageContext.request.contextPath }${list.url }')"></a>
 							
-							<c:if test="${not empty authUser }">
+							<c:if test="${not empty authUser && authUser.role == 'ADMIN'}">
 								<a	href="${pageContext.request.contextPath }/gallery/delete/${list.no }"
 									class="del-button"
 									title="삭제">삭제</a>
