@@ -24,11 +24,24 @@
 			}
 			
 			// 이메일 유효성(Empty) 체크
+			if ($("#email").val() === "") {
+				alert("이메일이 비어있습니다.");
+				$("#email").focus();
+				return ;
+			}
 			
-			// 중복체크 유무 - attr ==> hide, show
+			// 중복체크 유무
+			if ($("#img-checkemail").css("display") === "none") {
+				alert("이메일 중복확인을 하지 않았습니다.");
+				return ;
+			}
 			
 			// 비밀번호 유효성(Empty) 체크
-			
+			if ($("#password").val() === "") {
+				alert("비밀번호가 비어있습니다.");
+				$("#password").focus();
+				return ;
+			}
 			
 			// 유효성 ok
 			console.log("ok!!!");
