@@ -14,6 +14,12 @@
 			SELECT no, name, role FROM user WHERE email = #{e } AND password = #{p }
 		]]>
 	</select>
+	
+	<select id="findByEmail" parameterType="String" resultType="uservo">
+		<![CDATA[
+			SELECT name, email, gender FROM user WHERE email = #{email }
+		]]>
+	</select>
 
 	<insert id="insert" parameterType="uservo">
 		<![CDATA[

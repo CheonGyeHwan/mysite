@@ -12,17 +12,24 @@
 
 	<properties>
 		<org.springframework-version>4.3.4.RELEASE</org.springframework-version>
-		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>		
-    	<logback.version>1.1.1</logback.version>
+		<jcloverslf4j.version>1.7.6</jcloverslf4j.version>
+		<logback.version>1.1.1</logback.version>
 	</properties>
 
 	<dependencies>
-	
+
 		<!-- JSTL -->
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+
+		<!-- jackson -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.8</version>
 		</dependency>
 
 		<!-- Servlet -->
@@ -38,7 +45,7 @@
 			<version>2.0</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Spring Context(Container) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -46,10 +53,10 @@
 			<version>${org.springframework-version}</version>
 			<!-- JCL 제외 -->
 			<exclusions>
-			   <exclusion>
-				  <groupId>commons-logging</groupId>
-				  <artifactId>commons-logging</artifactId>
-			   </exclusion>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 
@@ -66,7 +73,7 @@
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- MyBatis -->
 		<dependency>
 			<groupId>org.mybatis</groupId>
@@ -78,14 +85,14 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.0</version>
 		</dependency>
-		
+
 		<!-- Spring JDBC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- common fileupload -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -97,7 +104,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+
 		<!-- Common DBCP -->
 		<dependency>
 			<groupId>commons-dbcp</groupId>
@@ -111,26 +118,26 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<version>2.7.4</version>
 		</dependency>
-		
-		<!-- Logback --> 
-		<dependency>                                    
-			<groupId>org.slf4j</groupId>                
-			<artifactId>jcl-over-slf4j</artifactId>     
-			<version>${jcloverslf4j.version}</version>  
+
+		<!-- Logback -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${jcloverslf4j.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
 		</dependency>
-		
+
 		<!-- Spring Aspect -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Validation -->
 		<dependency>
 			<groupId>javax.validation</groupId>
