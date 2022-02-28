@@ -16,12 +16,12 @@ public class MainController {
 	}
 	
 	@ResponseBody
-	@RequestMapping("/mag01")
+	@RequestMapping("/msg01")
 	public String message01() {
 		return "안녕";
 	}
 	
-	@RequestMapping("/mag02")
+	@RequestMapping("/msg02")
 	public void message02(HttpServletResponse resp) throws Exception {
 		resp.setContentType("application/json; charset=UTF-8");
 		resp.getWriter().print("\"message\" : \"Hello World\"");
