@@ -40,7 +40,17 @@
 	 	return html;
 	};
 
-	var fetch = function(sn) {	
+	var fetch = function(sn) {
+		if ($("#list-guestbook li:last-child").data("no") == sn ) {
+			return ;
+		}
+		
+		if ($("#list-guestbook li:last-child").data("no") != null) {
+			sn = $("#list-guestbook li:last-child").data("no"); 	
+		}
+		
+		console.log(sn);
+		
 		$.ajax({
 			url : "${pageContext.request.contextPath }/api/guestbook?sn=" + sn,
 			type : "get",
@@ -56,10 +66,7 @@
 					$("#list-guestbook").append(html);
 				})
 				
-				
-				$last = $("#list-guestbook li:last-child")[0];
-				console.log($last);
-				sn = $("#list-guestbook:last-child").data("no");
+				return sn;
 			}
 		});
 	};
@@ -110,7 +117,7 @@
 	
 	$(function() {
 		var sn = -1;
-		fetch(sn);
+		sn = fetch(sn);
 		
 		$("#add-form").submit(function(event) {
 			event.preventDefault();
@@ -173,16 +180,16 @@
 			}
 		});
 		
-		$(window).scroll(function() {
+		$(window).scroll(function(e) {
 			var $window = $(this);
 			var $document = $(document);
 			
 			var windowHeight = $window.height();
 			var documentHeight = $document.height();
 			var scrollTop = $window.scrollTop();
-			
+	
 			if (scrollTop + windowHeight + 10 > documentHeight) {
-				fetch(sn);
+				sn = fetch(sn);
 			}
 		});
 		
