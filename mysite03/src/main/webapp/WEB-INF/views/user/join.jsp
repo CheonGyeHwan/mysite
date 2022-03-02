@@ -10,42 +10,69 @@
 <title>${site.title }</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.request.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 <script>
+	var messageBox = function(title, message, callback) {
+		$("#dialog p").text(message);
+		$("#dialog")
+			.attr("title", title)
+			.dialog({
+				width: 340,
+	      		modal: true,
+	      		buttons: {
+	      			"확인": function() {
+	      				$(this).dialog("close");
+	      			}
+	      		},
+	      		close: callback
+	    	});
+	};
+	
 	$(function() {
 		$("#join-form").submit(function() {
 			event.preventDefault();
 			
 			// 이름 유효성(Empty) 체크
 			if ($("#name").val() === "") {
-				alert("이름이 비어있습니다.");
-				$("#name").focus();
+				messageBox("회원가입", "이름은 필수항목입니다.", function() {
+					$("#name").focus();
+				});
 				return ;
 			}
 			
 			// 이메일 유효성(Empty) 체크
 			if ($("#email").val() === "") {
-				alert("이메일이 비어있습니다.");
-				$("#email").focus();
+				messageBox("회원가입", "이메일은 필수항목입니다.", function() {
+					$("#email").focus();
+				});
 				return ;
 			}
 			
 			// 중복체크 유무
 			if ($("#img-checkemail").css("display") === "none") {
-				alert("이메일 중복확인을 하지 않았습니다.");
+				messageBox("회원가입", "이메일 중복체크를 하세요.");
 				return ;
 			}
 			
+			// if (!($("#img-checkemail").is("visible"))) {
+			//	messageBox("회원가입", "이메일 중복체크를 하세요.", function() {
+			//		$("#email").focus();
+			//	});
+			//	return ;	
+			// }
+			
 			// 비밀번호 유효성(Empty) 체크
 			if ($("#password").val() === "") {
-				alert("비밀번호가 비어있습니다.");
-				$("#password").focus();
+				messageBox("회원가입", "비밀번호는 필수항목입니다.", function() {
+					$("#password").focus();
+				})
 				return ;
 			}
 			
 			// 유효성 ok
-			console.log("ok!!!");
-			// $("#join-form")[0].submit();
+			$("#join-form")[0].submit();
 		})
 		
 		$("#email").change(function() {
@@ -70,8 +97,9 @@
 					}
 					
 					if (response.data) {
-						alert("존재하는 이메일입니다. 다른 이메일을 사용해주세요.");
-						$("#email").val("").focus();
+						messageBox("회원가입", "존재하는 이메일입니다. 다른 이메일을 사용해주세요.", function() {
+							$("#email").val("").focus();
+						});
 						return ;
 					}
 					
@@ -127,8 +155,8 @@
 					
 					<fieldset>
 						<legend>성별</legend>
-						<form:radiobutton path="gender" value="female" label="여"/>
-						<form:radiobutton path="gender" value="male" label="남"/>
+						<form:radiobutton path="gender" value="female" label="여" checked="${userVo.gender == 'female' }"/>
+						<form:radiobutton path="gender" value="male" label="남" checked="${userVo.gender == 'male' }"/>
 					</fieldset>
 					
 					<fieldset>
@@ -140,6 +168,10 @@
 					<input type="submit" value="가입하기">
 					
 				</form:form>
+			</div>
+			
+			<div id="dialog" title="" style="display:'none'">
+ 				<p style="line-height: 60px"></p>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"></c:import>
