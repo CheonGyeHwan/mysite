@@ -10,6 +10,109 @@
 <title>${site.title }</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.request.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script>
+	var messageBox = function(title, message, callback) {
+		$("#dialog p").text(message);
+		$("#dialog")
+			.attr("title", title)
+			.dialog({
+				width: 340,
+	      		modal: true,
+	      		buttons: {
+	      			"확인": function() {
+	      				$(this).dialog("close");
+	      			}
+	      		},
+	      		close: callback
+	    	});
+	};
+	
+	$(function() {
+		$("#join-form").submit(function() {
+			event.preventDefault();
+			
+			// 이름 유효성(Empty) 체크
+			if ($("#name").val() === "") {
+				messageBox("회원가입", "이름은 필수항목입니다.", function() {
+					$("#name").focus();
+				});
+				return ;
+			}
+			
+			// 이메일 유효성(Empty) 체크
+			if ($("#email").val() === "") {
+				messageBox("회원가입", "이메일은 필수항목입니다.", function() {
+					$("#email").focus();
+				});
+				return ;
+			}
+			
+			// 중복체크 유무
+			if ($("#img-checkemail").css("display") === "none") {
+				messageBox("회원가입", "이메일 중복체크를 하세요.");
+				return ;
+			}
+			
+			// if (!($("#img-checkemail").is("visible"))) {
+			//	messageBox("회원가입", "이메일 중복체크를 하세요.", function() {
+			//		$("#email").focus();
+			//	});
+			//	return ;	
+			// }
+			
+			// 비밀번호 유효성(Empty) 체크
+			if ($("#password").val() === "") {
+				messageBox("회원가입", "비밀번호는 필수항목입니다.", function() {
+					$("#password").focus();
+				})
+				return ;
+			}
+			
+			// 유효성 ok
+			$("#join-form")[0].submit();
+		})
+		
+		$("#email").change(function() {
+			$("#img-checkemail").hide();
+			$("#btn-checkemail").show();
+		})
+		
+		$("#btn-checkemail").click(function() {
+			var email = $("#email").val();
+			if (email == "") {
+				return ;
+			}
+			
+			$.ajax({
+				url : "${pageContext.request.contextPath }/user/api/checkemail?email=" + email,
+				type : "get",
+				dataType : "json",
+				success : function(response) {
+					if (response.result !== "success") {
+						console.error(response.message);
+						return ;
+					}
+					
+					if (response.data) {
+						messageBox("회원가입", "존재하는 이메일입니다. 다른 이메일을 사용해주세요.", function() {
+							$("#email").val("").focus();
+						});
+						return ;
+					}
+					
+					$("#img-checkemail").show();
+					$("#btn-checkemail").hide();
+				},
+				error : function(xhr, status, e) {
+					console.error(status, e);
+				}
+			});
+		});
+	});
+</script>
 </head>
 <body>
 	<div id="container">
@@ -36,7 +139,8 @@
 					
 					<label class="block-label" for="email"><spring:message code="user.join.label.email"/></label>
 					<form:input path="email"/>
-					<input type="button" value="id 중복체크">
+					<input type="button" id="btn-checkemail" value="중복체크">
+					<img id="img-checkemail" src="${pageContext.request.contextPath }/assets/images/check.png" style="width:16px; display:none"/>
 					<p style="text-align:left; padding-left:0; color:red">
 						<form:errors path="email"/>
 					</p>
@@ -51,8 +155,8 @@
 					
 					<fieldset>
 						<legend>성별</legend>
-						<form:radiobutton path="gender" value="female" label="여"/>
-						<form:radiobutton path="gender" value="male" label="남"/>
+						<form:radiobutton path="gender" value="female" label="여" checked="${userVo.gender == 'female' }"/>
+						<form:radiobutton path="gender" value="male" label="남" checked="${userVo.gender == 'male' }"/>
 					</fieldset>
 					
 					<fieldset>
@@ -64,6 +168,10 @@
 					<input type="submit" value="가입하기">
 					
 				</form:form>
+			</div>
+			
+			<div id="dialog" title="" style="display:'none'">
+ 				<p style="line-height: 60px"></p>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"></c:import>
