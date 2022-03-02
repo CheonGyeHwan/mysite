@@ -15,6 +15,10 @@ public class GuestbookRepository {
 		return sqlSession.selectList("guestbook.findAll");
 	}
 	
+	public List<GuestbookVo> findByNo(Long no) {
+		return sqlSession.selectList("guestbook.findByNo", no);
+	}
+	
 	public boolean insert(GuestbookVo vo) {
 		int count = sqlSession.insert("guestbook.insert", vo);
 		return count == 1;

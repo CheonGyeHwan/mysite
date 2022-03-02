@@ -29,6 +29,36 @@
 		]]>
 	</select>
 	
+	<select id="findByNo" parameterType="long" resultType="guestbookvo">
+		<choose>
+			<when test="_parameter == -1">
+				<![CDATA[
+					SELECT no
+			      		  ,name
+			      		  ,password
+			      		  ,message
+			      		  ,DATE_FORMAT(reg_date, '%Y/%m/%d %H:%i:%s') AS regDate 
+			  		  FROM guestbook
+	      		  ORDER BY no DESC
+	         		 LIMIT 0, 3
+				]]>
+			</when>
+			<otherwise>
+				<![CDATA[
+					SELECT no
+			      		  ,name
+			      		  ,password
+			      		  ,message
+			      		  ,DATE_FORMAT(reg_date, '%Y/%m/%d %H:%i:%s') AS regDate 
+			  		  FROM guestbook
+			 		 WHERE no < ${_parameter }
+	      		  ORDER BY no DESC
+	         		 LIMIT 0, 3
+				]]>
+			</otherwise>
+		</choose>
+	</select>
+	
 	<delete id="delete" parameterType="guestbookvo">
 		<![CDATA[
 			DELETE FROM guestbook WHERE no = ${no } AND password = ${password }
