@@ -40,13 +40,11 @@
 	 	return html;
 	};
 
-	var fetch = function(sn) {
-		if ($("#list-guestbook li:last-child").data("no") == sn ) {
-			return ;
-		}
-		
-		if ($("#list-guestbook li:last-child").data("no") != null) {
-			sn = $("#list-guestbook li:last-child").data("no"); 	
+	var fetch = function() {
+		if ($("#list-guestbook li:last-child").data("no") == null) {
+			var sn = -1;
+		} else {
+			var sn = $("#list-guestbook li:last-child").data("no"); 
 		}
 		
 		console.log(sn);
@@ -116,8 +114,7 @@
 	};
 	
 	$(function() {
-		var sn = -1;
-		sn = fetch(sn);
+		fetch();
 		
 		$("#add-form").submit(function(event) {
 			event.preventDefault();
@@ -187,7 +184,7 @@
 			var scrollTop = $window.scrollTop();
 	
 			if (scrollTop + windowHeight + 10 > documentHeight) {
-				sn = fetch(sn);
+				fetch();
 			}
 		});
 		
