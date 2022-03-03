@@ -31,7 +31,7 @@
 	
 	<select id="findByNo" parameterType="long" resultType="guestbookvo">
 		<choose>
-			<when test="_parameter == -1">
+			<when test="_parameter == 0">
 				<![CDATA[
 					SELECT no
 			      		  ,name

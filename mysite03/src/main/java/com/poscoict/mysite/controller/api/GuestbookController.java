@@ -23,7 +23,7 @@ public class GuestbookController {
 	private GuestbookService guestbookService;
 	
 	@GetMapping
-	public ResponseEntity list(@RequestParam(value="sn", required=true, defaultValue="-1") Long no) {
+	public ResponseEntity list(@RequestParam(value="sn", required=true, defaultValue="0") Long no) {
 		List<GuestbookVo> list = guestbookService.getMessageList(no);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(JsonResult.success(list));

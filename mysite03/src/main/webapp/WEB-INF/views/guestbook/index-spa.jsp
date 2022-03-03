@@ -12,6 +12,8 @@
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+	var sn = 0;
+
 	var messageBox = function(title, message, callback) {
 		$("#dialog-message p").text(message);
 		$("#dialog-message")
@@ -41,13 +43,14 @@
 	};
 
 	var fetch = function() {
-		if ($("#list-guestbook li:last-child").data("no") == null) {
-			var sn = -1;
-		} else {
-			var sn = $("#list-guestbook li:last-child").data("no"); 
-		}
+		var nextIdx = $("#list-guestbook li:last-child").data("no") == null ? 0 : $("#list-guestbook li:last-child").data("no");
 		
-		console.log(sn);
+		// 최초 fetch 이후 중복 실행 검사
+		if (nextIdx != 0 && sn == nextIdx) {
+			return ;
+		}
+		 
+		sn = nextIdx;
 		
 		$.ajax({
 			url : "${pageContext.request.contextPath }/api/guestbook?sn=" + sn,
@@ -63,8 +66,6 @@
 					var html = render(data);
 					$("#list-guestbook").append(html);
 				})
-				
-				return sn;
 			}
 		});
 	};
@@ -114,8 +115,10 @@
 	};
 	
 	$(function() {
+		// 최초 리스트 받기
 		fetch();
 		
+		// Insert
 		$("#add-form").submit(function(event) {
 			event.preventDefault();
 			
@@ -127,6 +130,7 @@
 			addMessage(vo);
 		})
 		
+		// Delete
 		$(document).on("click", "#list-guestbook li a", function(event) {
 			event.preventDefault();
 			var no = $(this).data("no");
@@ -175,6 +179,7 @@
 			}
 		});
 		
+		// Scroll
 		var flag = true;
 		
 		$(window).scroll(function(e) {
@@ -185,12 +190,10 @@
 			var documentHeight = $document.height();
 			var scrollTop = $window.scrollTop();
 			
-			if (scrollTop + windowHeight + 10 > documentHeight) {
-				if (flag) {
-					fetch();
-					flag = false;
-					return ;
-				}
+			if ((scrollTop + windowHeight + 10 > documentHeight) && flag) {
+				fetch();
+				flag = false;
+				return ;
 			}
 			
 			flag = true;
