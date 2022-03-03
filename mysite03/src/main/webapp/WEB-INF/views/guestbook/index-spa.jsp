@@ -32,7 +32,7 @@
 		var html = 
 			"<li data-no='" + vo.no + "'>" +
 			"<strong>" + vo.name + "</strong>" +
-			"<p>" + vo.message + "</p>" +
+			"<p>" + vo.message.replace(/\n/gi, "<br/>") + "</p>" +
 			"<strong></strong>" +
 			"<a href='' data-no='" + vo.no + "'>삭제</a>" + 
 			"</li>";
@@ -175,6 +175,8 @@
 			}
 		});
 		
+		var flag = true;
+		
 		$(window).scroll(function(e) {
 			var $window = $(this);
 			var $document = $(document);
@@ -182,10 +184,16 @@
 			var windowHeight = $window.height();
 			var documentHeight = $document.height();
 			var scrollTop = $window.scrollTop();
-	
+			
 			if (scrollTop + windowHeight + 10 > documentHeight) {
-				fetch();
+				if (flag) {
+					fetch();
+					flag = false;
+					return ;
+				}
 			}
+			
+			flag = true;
 		});
 		
 	})

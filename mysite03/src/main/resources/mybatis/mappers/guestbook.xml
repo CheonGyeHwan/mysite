@@ -40,7 +40,7 @@
 			      		  ,DATE_FORMAT(reg_date, '%Y/%m/%d %H:%i:%s') AS regDate 
 			  		  FROM guestbook
 	      		  ORDER BY no DESC
-	         		 LIMIT 0, 3
+	         		 LIMIT 0, 5
 				]]>
 			</when>
 			<otherwise>
