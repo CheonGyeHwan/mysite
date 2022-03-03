@@ -164,8 +164,6 @@
 								return ;
 							}
 							
-							console.log(response.data);
-							
 							$("#list-guestbook li[data-no = '" + no + "']").remove();
 							dialogDelete.dialog("close");
 						}	
